@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorPro — Boost Your Content Proficiency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+       
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+       
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--light);
+        }
+       
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+       
+        .platform-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25);
+        }
+       
+        .ai-chat {
+            height: 350px;
+            overflow-y: auto;
+        }
+       
+        .message {
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+       
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+       
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+        }
+       
+        .editor-frame {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+            background: #1a1a2e;
+        }
+       
+        .notice-box {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="glass sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
+                CreatorPro
+            </h1>
+            <div class="hidden md:flex gap-8">
+                <a href="#platforms" class="hover:text-indigo-300 transition">Editing Tools</a>
+                <a href="#assistant" class="hover:text-indigo-300 transition">Assistant AI</a>
+                <a href="#coach" class="hover:text-indigo-300 transition">Coach AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-7xl mx-auto px-6 py-16 text-center">
+        <h2 class="text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-tight mb-6">
+            Master Editing & <br>Create Like a Pro
+        </h2>
+        <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
+            Learn via video tutorials → edit directly → get creative ideas from Assistant AI → expert feedback from Coach AI
+        </p>
+        <a href="#platforms" class="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-full font-semibold transition inline-flex items-center gap-2">
+            Start Creating <i class="fa fa-arrow-right"></i>
+        </a>
+    </header>
+
+    <!-- Editing Platforms Section -->
+    <section id="platforms" class="max-w-7xl mx-auto px-6 py-12">
+        <h3 class="text-3xl font-bold mb-8 text-center">Popular Editing Platforms</h3>
+        <p class="text-center text-slate-400 mb-12">Select any tool to watch the tutorial and start editing</p>
+       
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+            <!-- CapCut -->
+            <div class="platform-card glass rounded-2xl p-6 transition-all duration-300 cursor-pointer" onclick="showTutorial('capcut')">
+                <h4 class="text-xl font-semibold mb-2">CapCut</h4>
+                <p class="text-slate-400 text-sm mb-4">Best for short-form & social media</p>
+                <span class="text-indigo-400 text-sm">Click to learn →</span>
+            </div>
+
+            <!-- Canva Video -->
+            <div class="platform-card glass rounded-2xl p-6 transition-all duration-300 cursor-pointer" onclick="showTutorial('canva')">
+                <h4 class="text-xl font-semibold mb-2">Canva Video</h4>
+                <p class="text-slate-400 text-sm mb-4">Simple browser-based design & edit</p>
+                <span class="text-indigo-400 text-sm">Click to learn →</span>
+            </div>
+
+            <!-- OBS Studio -->
+            <div class="platform-card glass rounded-2xl p-6 transition-all duration-300 cursor-pointer" onclick="showTutorial('obs')">
+                <h4 class="text-xl font-semibold mb-2">OBS Studio</h4>
+                <p class="text-slate-400 text-sm mb-4">Recording & live streaming powerhouse</p>
+                <span class="text-indigo-400 text-sm">Click to learn →</span>
+            </div>
+        </div>
+
+        <!-- Tutorial & Editor Workspace -->
+        <div id="workspace" class="glass rounded-2xl p-8 hidden mb-12">
+            <h4 id="platform-title" class="text-2xl font-bold mb-4"></h4>
+            <p id="platform-desc" class="text-slate-300 mb-6"></p>
+           
+            <!-- Tutorial Video -->
+            <div class="mb-8">
+                <h5 class="text-lg font-medium mb-3 text-indigo-300">📺 Tutorial Video</h5>
+                <div class="aspect-video rounded-xl overflow-hidden bg-slate-800 mb-6">
+                    <iframe id="tutorial-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Editor Launch Area -->
+            <div id="editor-section">
+                <h5 class="text-lg font-medium mb-3 text-emerald-300">✏️ Start Editing</h5>
+               
+                <div class="notice-box">
+                    <p class="text-amber-300 text-sm">
+                        <i class="fa fa-info-circle mr-2"></i>
+                        Most editors block direct embedding for security. Click below to launch — it opens in a dedicated view while keeping your tutorial & AI chat visible.
+                    </p>
+                </div>
+
+                <button id="start-edit-btn" class="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-lg transition flex items-center justify-center gap-2 mb-6">
+                    <i class="fa fa-external-link"></i> Start Editing — Open Editor
+                </button>
+
+                <div id="editor-status" class="hidden glass p-4 rounded-xl">
+                    <p class="text-green-400 mb-2">✅ Editor launched successfully — check your new tab/window</p>
+                    <p class="text-slate-400 text-sm">💡 Keep this page open to follow the tutorial and use Assistant & Coach AI as you edit!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Section -->
+    <section id="ai-section" class="max-w-7xl mx-auto px-6 py-12">
+        <h3 class="text-3xl font-bold mb-8 text-center">Your AI Team</h3>
+       
+        <div class="flex justify-center gap-4 mb-8">
+            <button id="tab-assistant" class="tab-btn px-6 py-3 rounded-full font-medium active" onclick="switchTab('assistant')">
+                💡 Assistant — Creative Helper
+            </button>
+            <button id="tab-coach" class="tab-btn px-6 py-3 rounded-full font-medium glass" onclick="switchTab('coach')">
+                🎬 Coach — Post-Edit Review
+            </button>
+        </div>
+
+        <!-- Assistant AI Panel -->
+        <div id="assistant-panel" class="glass rounded-2xl p-8">
+            <h4 class="text-xl font-semibold mb-4 text-indigo-300">💡 Content Assistant</h4>
+            <p class="text-slate-400 mb-6">Tell me your topic or paste a draft script — I'll help make it creative, engaging, and ready to film.</p>
+           
+            <textarea id="assistant-input" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-4 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="4" placeholder="e.g., I'm making a 1-minute video about saving money for students..."></textarea>
+           
+            <button onclick="askAssistant()" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl font-semibold transition mb-6">
+                Generate Creative Ideas ✨
+            </button>
+           
+            <div id="assistant-chat" class="ai-chat pr-2">
+                <div class="message bg-indigo-900/40 p-4 rounded-xl mb-3">
+                    <strong>Assistant:</strong> Hi there! Share your video topic, target platform, and style — I'll give you hooks, structure ideas, and engagement tips!
+                </div>
+            </div>
+        </div>
+
+        <!-- Coach AI Panel -->
+        <div id="coach-panel" class="glass rounded-2xl p-8 hidden">
+            <h4 class="text-xl font-semibold mb-4 text-pink-300">🎬 Your Editing Coach</h4>
+            <p class="text-slate-400 mb-6">Finished editing? Describe your video — I'll review pacing, clarity, hook strength, and suggest improvements.</p>
+           
+            <textarea id="coach-input" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-4 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-500" rows="5" placeholder="Describe your edit: pacing, length, main scenes, transitions used, or paste final script..."></textarea>
+           
+            <button onclick="askCoach()" class="bg-pink-600 hover:bg-pink-700 px-6 py-3 rounded-xl font-semibold transition mb-6">
+                Review My Edit 🔍
+            </button>
+           
+            <div id="coach-chat" class="ai-chat pr-2">
+                <div class="message bg-pink-900/40 p-4 rounded-xl mb-3">
+                    <strong>Coach:</strong> Ready to review! Tell me about your finished video — length, flow, transitions — and I'll spot strengths, mistakes, and tweaks.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        <p>CreatorPro — Elevate your content creation skills. Built for creators, by creators.</p>
+    </footer>
+
+    <script>
+        const platforms = {
+            capcut: {
+                title: "CapCut — Complete Guide",
+                desc: "Learn to edit fast, add effects, captions, and trending transitions — perfect for TikTok, Reels & Shorts.",
+                videoEmbed: "https://www.youtube.com/embed/d-ESvEJAHxE",
+                editorUrl: "https://www.capcut.com/editor"
+            },
+            canva: {
+                title: "Canva Video — Quick & Beautiful",
+                desc: "Design and edit directly in your browser with templates, stock media, and simple tools.",
+                videoEmbed: "https://www.youtube.com/embed/AlrC-XaKwew",
+                editorUrl: "https://www.canva.com/create/video/"
+            },
+            obs: {
+                title: "OBS Studio — Record & Stream Like a Pro",
+                desc: "Industry standard for screen recording, live streaming, and scene management. Download and install to use.",
+                videoEmbed: "https://www.youtube.com/embed/d-ESvEJAHxE",
+                editorUrl: "https://obsproject.com/"
+            }
+        };
+
+        let activeEditorUrl = "";
+
+        function showTutorial(key) {
+            const data = platforms[key];
+            document.getElementById("platform-title").textContent = data.title;
+            document.getElementById("platform-desc").textContent = data.desc;
+            document.getElementById("tutorial-iframe").src = data.videoEmbed;
+            activeEditorUrl = data.editorUrl;
+           
+            // Reset state
+            document.getElementById("editor-status").classList.add("hidden");
+            document.getElementById("workspace").classList.remove("hidden");
+            document.getElementById("workspace").scrollIntoView({behavior: "smooth"});
+        }
+
+        document.getElementById("start-edit-btn").addEventListener("click", () => {
+            if (activeEditorUrl) {
+                window.open(activeEditorUrl, "_blank");
+                document.getElementById("editor-status").classList.remove("hidden");
+            }
+        });
+
+        // AI Tabs
+        function switchTab(name) {
+            document.getElementById("assistant-panel").classList.toggle("hidden", name !== "assistant");
+            document.getElementById("coach-panel").classList.toggle("hidden", name !== "coach");
+            document.getElementById("tab-assistant").classList.toggle("active", name === "assistant");
+            document.getElementById("tab-assistant").classList.toggle("glass", name !== "assistant");
+            document.getElementById("tab-coach").classList.toggle("active", name === "coach");
+            document.getElementById("tab-coach").classList.toggle("glass", name !== "coach");
+        }
+
+        // Assistant AI
+        function askAssistant() {
+            const input = document.getElementById("assistant-input").value.trim();
+            if (!input) return;
+            const chat = document.getElementById("assistant-chat");
+            chat.innerHTML += `<div class="message bg-slate-800/50 p-3 rounded-xl mb-2 ml-auto"><strong>You:</strong> ${input}</div>`;
+           
+            setTimeout(() => {
+                chat.innerHTML += `<div class="message bg-indigo-900/40 p-3 rounded-xl mb-2"><strong>Assistant 💡:</strong> Great topic! Here's how to make <strong>"${input}"</strong> stand out:<br><br>🎣 <strong>Hook (0–3s):</strong> Start with a surprising statement or question.<br>📐 <strong>Structure:</strong> Hook → Value → Example → Call-to-action.<br>✨ <strong>Creative twist:</strong> Add text pop-ups, match cuts, and music that fades during speech.<br>📱 <strong>Length:</strong> Under 60s for Reels/TikTok; 3–5min for YouTube.<br>💬 <strong>Engagement:</strong> Ask viewers an easy question in the caption!</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 800);
+           
+            document.getElementById("assistant-input").value = "";
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // Coach AI
+        function askCoach() {
+            const input = document.getElementById("coach-input").value.trim();
+            if (!input) return;
+            const chat = document.getElementById("coach-chat");
+            chat.innerHTML += `<div class="message bg-slate-800/50 p-3 rounded-xl mb-2 ml-auto"><strong>You:</strong> ${input}</div>`;
+           
+            setTimeout(() => {
+                chat.innerHTML += `<div class="message bg-pink-900/40 p-3 rounded-xl mb-2"><strong>Coach 🎬:</strong> Here's your review:<br><br>✅ <strong>Strengths:</strong> Clear concept — great foundation!<br>⚠️ <strong>Areas to watch:</strong><br>• <strong>Pacing:</strong> Cut pauses longer than 1.5s.<br>• <strong>Audio:</strong> Keep music at -15dB to -20dB.<br>• <strong>Hook:</strong> Make it hit within the first 3 seconds.<br>• <strong>Transitions:</strong> Simple cuts > overused effects.<br><br>🚀 <strong>Do this:</strong> Add captions, end with a clear CTA, and preview on mobile.<br><br>Keep creating — you've got this! 💪</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+           
+            document.getElementById("coach-input").value = "";
+            chat.scrollTop = chat.scrollHeight;
+        }
+    </script>
+</body>
+</html>
